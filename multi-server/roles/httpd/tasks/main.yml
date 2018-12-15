@@ -1,0 +1,32 @@
+---
+- name: Install httpd
+  yum: name=httpd state=present
+
+- name: Copy httpd configuration for wordpress
+  template: src=httpd.conf dest=/etc/httpd/conf/httpd.conf
+  notify: restart httpd
+
+- name: Empty additional httpd config
+  file:
+    state: absent
+    path: /etc/httpd/conf.d/
+
+- name: Create conf.d directory
+  file:
+    state: directory
+    path: /etc/httpd/conf.d/
+
+- name: Copy php configuration for wordpress
+  copy: src=php.conf dest=/etc/httpd/conf.d/php.conf
+  notify: restart httpd
+
+- name: Copy wordpress vhost
+  copy: src=wordpress.conf dest=/etc/httpd/conf.d/wordpress.conf
+  notify: restart httpd
+
+- name: insert firewalld rule for httpd
+  firewalld: port={{ httpd_port }}/tcp permanent=true state=enabled immediate=yes
+  ignore_errors: yes
+
+- name: http service state
+  service: name=httpd state=started enabled=yes
