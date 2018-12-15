@@ -1,13 +1,22 @@
 ---
-- name: Install WordPress, MariaDB, Nginx, and PHP-FPM
-  hosts: wordpress
+- hosts: webserver, database-server
+  name: Gather facts
+  tasks: [ ]
+
+- name: Install Webserver, Wordpress, and PHP
+  hosts: webserver
   remote_user: root
-  # remote_user: user
-  # sudo: yes
+
+  roles:
+    - common
+    - php
+    - wordpress
+    - httpd
+
+- name: Install Database Server
+  hosts: database-server
+  remote_user: root
 
   roles:
     - common
     - mariadb
-    - php
-    - wordpress
-    - httpd

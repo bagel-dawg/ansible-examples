@@ -28,5 +28,9 @@
   firewalld: port={{ httpd_port }}/tcp permanent=true state=enabled immediate=yes
   ignore_errors: yes
 
+- name: set the SELinux policy for http to db server
+  command: setsebool -P httpd_can_network_connect_db 1
+
+
 - name: http service state
   service: name=httpd state=started enabled=yes

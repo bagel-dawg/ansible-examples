@@ -25,7 +25,7 @@ define('DB_USER', '{{ wp_db_user }}');
 define('DB_PASSWORD', '{{ wp_db_password }}');
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', '{{ hostvars['172.18.9.16']['ansible_facts']['default_ipv4']['address'] }}');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
