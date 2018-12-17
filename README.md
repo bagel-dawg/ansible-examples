@@ -1,1 +1,1 @@
-# ansible-wordpress-rhel7
+# ansible-rhel7-examples
