@@ -1,0 +1,9 @@
+---
+- name: Configure TFTP Server, Change what image is deployed out.
+  hosts: master
+  remote_user: root
+
+  roles:
+    - common
+    - tftp-server
+    - game-1

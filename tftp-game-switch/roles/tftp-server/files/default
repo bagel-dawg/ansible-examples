@@ -1,0 +1,9 @@
+default menu.c32
+prompt 0
+
+menu title ########## We aint doing shit ##########
+
+LABEL Nuttin
+MENU LABEL ^1) Nuttin
+KERNEL chain.c32
+APPEND hd0 0

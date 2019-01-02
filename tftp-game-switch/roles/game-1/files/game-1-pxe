@@ -1,0 +1,11 @@
+default menu.c32
+prompt 0
+timeout 30
+ONTIMEOUT GAME1
+
+menu title ########## Game 1 ##########
+
+LABEL GAME1
+MENU LABEL ^1) Windows VM 1
+KERNEL chain.c32
+APPEND hd0 0

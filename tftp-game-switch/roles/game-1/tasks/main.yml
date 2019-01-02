@@ -1,0 +1,7 @@
+- name: Copy default pxelinux boot file
+  copy:
+    src: game-1-pxe
+    dest: /var/lib/tftpboot/pxelinux.cfg/01-{{ item | lower }}
+  with_items:
+    - "{{ client_macs  }}"
+  notify: Restart TFTP

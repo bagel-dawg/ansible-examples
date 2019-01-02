@@ -1,0 +1,36 @@
+---
+- name: Install TFTP
+  yum: name=tftp-server state=present
+
+- name: Install syslinux
+  yum: name=syslinux state=present
+
+- name: Insert firewall rule for TFTP
+  firewalld: port=69/tcp permanent=true state=enabled immediate=yes
+  ignore_errors: yes
+
+- name: Copy syslinux config to tftpboot
+  copy:
+    src: /usr/share/syslinux/{{ item  }}
+    dest: /var/lib/tftpboot/{{ item }}
+    owner: root
+    group: root
+    remote_src: yes
+  with_items:
+    - "pxelinux.0"
+    - "menu.c32"
+    - "memdisk"
+    - "mboot.c32"
+    - "chain.c32"
+  notify: Restart TFTP  
+
+- name: Create pxelinux.cfg directory
+  file:
+    state: directory
+    path: /var/lib/tftpboot/pxelinux.cfg
+
+- name: Copy default pxelinux boot file
+  copy:
+    src: default
+    dest: /var/lib/tftpboot/pxelinux.cfg
+  notify: Restart TFTP
