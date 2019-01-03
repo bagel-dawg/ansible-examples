@@ -23,7 +23,12 @@
 - name: Create i386-pc directory
   file:
     state: directory
-    path: /var/lib/tftpboot/grub
+    path: /var/lib/tftpboot/grub/i386-pc
+
+- name: Generate grub2 image
+  command: /usr/bin/grub2-mkimage -d /usr/lib/grub/i386-pc/ -O i386-pc-pxe -o /var/lib/tftpboot/booti386 -p '(tftp)/grub' pxe tftp
+  args:
+    creates: /var/lib/tftpboot/booti386
 
 - name: Copy syslinux config to tftpboot
   copy:
