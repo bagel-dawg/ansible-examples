@@ -1,0 +1,45 @@
+---
+- name: Install TFTP
+  yum: name=tftp-server state=present
+
+- name: Install grub2
+  yum: name=grub2 state=present
+  
+- name: Install grub2-pc
+  yum: name=grub2-pc state=present
+  
+- name: Install grub2-pc-modules
+  yum: name=grub2-pc-modules state=present
+
+- name: Insert firewall rule for TFTP
+  firewalld: port=69/tcp permanent=true state=enabled immediate=yes
+  ignore_errors: yes
+
+- name: Create grub directory
+  file:
+    state: directory
+    path: /var/lib/tftpboot/grub
+    
+- name: Create i386-pc directory
+  file:
+    state: directory
+    path: /var/lib/tftpboot/grub
+
+- name: Copy syslinux config to tftpboot
+  copy:
+    src: /usr/lib/grub/i386-pc/{{ item  }}
+    dest: /var/lib/tftpboot/grub/i386-pc/{{ item }}
+    owner: root
+    group: root
+    remote_src: yes
+  with_items:
+    - "ntfs.mod"
+    - "part_msdos.mod"
+    - "ntldr.mod"
+  notify: Restart TFTP  
+
+- name: Copy default pxelinux boot file
+  copy:
+    src: grub.conf
+    dest: /var/lib/tftpboot/grub/grub.conf
+notify: Restart TFTP
