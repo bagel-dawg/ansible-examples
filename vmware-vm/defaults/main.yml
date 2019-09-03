@@ -1,0 +1,9 @@
+vmware_host: '{{ lookup('env', 'VMWARE_HOST') | default('', true) }}'
+vmware_user: '{{ lookup('env', 'VMWARE_USER') | default('', true) }}'
+vmware_password: '{{ lookup('env', 'VMWARE_PASSWORD') | default('', true) }}'
+vmware_cluster: "{{ lookup('env','VMWARE_CLUSTER') | default('', true) }}"
+
+vm_name:  "{{ lookup('env','VM_NAME') | default(99999999 | random | to_uuid) }}"
+vm_datastore: "{{ lookup('env','VM_DATASTORE') | default('', true) }}"
+vm_network: "{{ lookup('env','VM_NETWORK') | default('', true) }}"
+vm_template: "{{ lookup('env','VM_TEMPLATE') | default('', true) }}"
